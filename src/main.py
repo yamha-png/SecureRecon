@@ -9,6 +9,7 @@ import argparse
 import sys
 from host_check import check_host, print_host_status
 from port_scanner import scan_ports, print_scan_results
+from banner_grabber import grab_all_banners, print_banner_results
 
 ETHICS_BANNER = """
 ========================================================
@@ -88,6 +89,9 @@ def main():
 
     open_ports = scan_ports(args.target, profile=args.profile, custom_ports=args.ports)
     print_scan_results(args.target, open_ports)
+
+    banner_results = grab_all_banners(args.target, open_ports)
+    print_banner_results(banner_results)
 
     # Modules will be called here as they are built:
     # host_check -> port_scanner -> banner_grabber -> http_analyzer
