@@ -8,6 +8,7 @@ orchestrate all scan modules as they are built.
 import argparse
 import sys
 from host_check import check_host, print_host_status
+from port_scanner import scan_ports, print_scan_results
 
 ETHICS_BANNER = """
 ========================================================
@@ -84,6 +85,9 @@ def main():
     if not host_status["reachable"]:
         print("[!] Target is unreachable. Aborting scan.")
         sys.exit(1)
+
+    open_ports = scan_ports(args.target, profile=args.profile, custom_ports=args.ports)
+    print_scan_results(args.target, open_ports)
 
     # Modules will be called here as they are built:
     # host_check -> port_scanner -> banner_grabber -> http_analyzer
