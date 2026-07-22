@@ -10,6 +10,7 @@ import sys
 from host_check import check_host, print_host_status
 from port_scanner import scan_ports, print_scan_results
 from banner_grabber import grab_all_banners, print_banner_results
+from http_analyzer import analyze_headers, print_http_analysis
 
 ETHICS_BANNER = """
 ========================================================
@@ -92,6 +93,9 @@ def main():
 
     banner_results = grab_all_banners(args.target, open_ports)
     print_banner_results(banner_results)
+
+    http_results = analyze_headers(args.target, open_ports)
+    print_http_analysis(http_results)
 
     # Modules will be called here as they are built:
     # host_check -> port_scanner -> banner_grabber -> http_analyzer
