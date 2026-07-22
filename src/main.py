@@ -11,6 +11,7 @@ from host_check import check_host, print_host_status
 from port_scanner import scan_ports, print_scan_results
 from banner_grabber import grab_all_banners, print_banner_results
 from http_analyzer import analyze_headers, print_http_analysis
+from ssl_inspector import inspect_all, print_ssl_results
 
 ETHICS_BANNER = """
 ========================================================
@@ -96,6 +97,9 @@ def main():
 
     http_results = analyze_headers(args.target, open_ports)
     print_http_analysis(http_results)
+
+    ssl_results = inspect_all(args.target, open_ports)
+    print_ssl_results(ssl_results)
 
     # Modules will be called here as they are built:
     # host_check -> port_scanner -> banner_grabber -> http_analyzer
