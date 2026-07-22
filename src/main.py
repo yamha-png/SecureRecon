@@ -7,6 +7,7 @@ orchestrate all scan modules as they are built.
 
 import argparse
 import sys
+from host_check import check_host, print_host_status
 
 ETHICS_BANNER = """
 ========================================================
@@ -76,6 +77,13 @@ def main():
     if args.live_check:
         print("[*] Live NVD lookup: ENABLED")
     print()
+
+    host_status = check_host(args.target)
+    print_host_status(args.target, host_status)
+
+    if not host_status["reachable"]:
+        print("[!] Target is unreachable. Aborting scan.")
+        sys.exit(1)
 
     # Modules will be called here as they are built:
     # host_check -> port_scanner -> banner_grabber -> http_analyzer
