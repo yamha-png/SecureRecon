@@ -17,6 +17,7 @@ from risk_scorer import calculate_risk_score, print_risk_summary
 from remediation_engine import build_remediation_plan, print_remediation_plan
 from report_generator import generate_reports
 from logger import init_logger, log_scan_start, log_scan_end, log_error, get_log_file_path
+from nvd_live_check import enrich_findings_with_live_data
 
 ETHICS_BANNER = """
 ========================================================
@@ -111,6 +112,7 @@ def main():
     print_ssl_results(ssl_results)
 
     findings = run_assessment(open_ports, banner_results, http_results, ssl_results)
+    findings = enrich_findings_with_live_data(findings, enabled=args.live_check)
     print_assessment_results(findings)
 
     risk_data = calculate_risk_score(findings)

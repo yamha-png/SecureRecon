@@ -167,6 +167,10 @@ def print_assessment_results(findings):
         print(f"  Recommendation: {f['recommendation']}")
         if f["source"]:
             print(f"  Reference: {f['source']}")
+        if "live_status" in f:
+            print(f"  Live Verification: {f['live_status']}")
+            if f.get("live_cvss_score") is not None:
+                print(f"  Live CVSS Score: {f['live_cvss_score']}")
         print(f"  Note: {f['note']}")
         print()
     print("=" * 50)
