@@ -15,6 +15,7 @@ from ssl_inspector import inspect_all, print_ssl_results
 from vuln_matcher import run_assessment, print_assessment_results
 from risk_scorer import calculate_risk_score, print_risk_summary
 from remediation_engine import build_remediation_plan, print_remediation_plan
+from report_generator import generate_reports
 
 ETHICS_BANNER = """
 ========================================================
@@ -113,10 +114,18 @@ def main():
     remediation_plan = build_remediation_plan(findings)
     print_remediation_plan(remediation_plan)
 
-    # Modules will be called here as they are built:
-    # host_check -> port_scanner -> banner_grabber -> http_analyzer
-    # -> ssl_inspector -> vuln_matcher -> report_generator
-    print("[*] SecureRecon skeleton is running. Modules will be added next.")
+    json_path, txt_path = generate_reports(
+        args.target, host_status, open_ports, banner_results,
+        http_results, ssl_results, findings, risk_data,
+        remediation_plan, args.profile
+    )
+
+    print("=" * 50)
+    print("REPORT FILES SAVED")
+    print("=" * 50)
+    print(f"JSON Report: {json_path}")
+    print(f"Text Report: {txt_path}")
+    print("=" * 50)
 
 
 if __name__ == "__main__":
