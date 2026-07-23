@@ -4,3 +4,4 @@ venv/
 reports/*.txt
 reports/*.json
 logs/*.log
+src/vuln_signatures_demo.json
