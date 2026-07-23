@@ -16,6 +16,7 @@ from vuln_matcher import run_assessment, print_assessment_results
 from risk_scorer import calculate_risk_score, print_risk_summary
 from remediation_engine import build_remediation_plan, print_remediation_plan
 from report_generator import generate_reports
+from logger import init_logger, log_scan_start, log_scan_end, log_error, get_log_file_path
 
 ETHICS_BANNER = """
 ========================================================
@@ -86,11 +87,15 @@ def main():
         print("[*] Live NVD lookup: ENABLED")
     print()
 
+    init_logger()
+    log_scan_start(args.target, args.profile)
+
     host_status = check_host(args.target)
     print_host_status(args.target, host_status)
 
     if not host_status["reachable"]:
         print("[!] Target is unreachable. Aborting scan.")
+        log_error(f"Target {args.target} unreachable - scan aborted")
         sys.exit(1)
 
     open_ports = scan_ports(args.target, profile=args.profile, custom_ports=args.ports)
@@ -125,7 +130,10 @@ def main():
     print("=" * 50)
     print(f"JSON Report: {json_path}")
     print(f"Text Report: {txt_path}")
+    print(f"Log File:    {get_log_file_path()}")
     print("=" * 50)
+
+    log_scan_end(args.target, risk_data["overall_risk"])
 
 
 if __name__ == "__main__":
