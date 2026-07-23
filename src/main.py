@@ -14,6 +14,7 @@ from http_analyzer import analyze_headers, print_http_analysis
 from ssl_inspector import inspect_all, print_ssl_results
 from vuln_matcher import run_assessment, print_assessment_results
 from risk_scorer import calculate_risk_score, print_risk_summary
+from remediation_engine import build_remediation_plan, print_remediation_plan
 
 ETHICS_BANNER = """
 ========================================================
@@ -108,6 +109,9 @@ def main():
 
     risk_data = calculate_risk_score(findings)
     print_risk_summary(risk_data)
+
+    remediation_plan = build_remediation_plan(findings)
+    print_remediation_plan(remediation_plan)
 
     # Modules will be called here as they are built:
     # host_check -> port_scanner -> banner_grabber -> http_analyzer
