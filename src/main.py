@@ -13,6 +13,7 @@ from banner_grabber import grab_all_banners, print_banner_results
 from http_analyzer import analyze_headers, print_http_analysis
 from ssl_inspector import inspect_all, print_ssl_results
 from vuln_matcher import run_assessment, print_assessment_results
+from risk_scorer import calculate_risk_score, print_risk_summary
 
 ETHICS_BANNER = """
 ========================================================
@@ -104,6 +105,9 @@ def main():
 
     findings = run_assessment(open_ports, banner_results, http_results, ssl_results)
     print_assessment_results(findings)
+
+    risk_data = calculate_risk_score(findings)
+    print_risk_summary(risk_data)
 
     # Modules will be called here as they are built:
     # host_check -> port_scanner -> banner_grabber -> http_analyzer
